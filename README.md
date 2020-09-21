@@ -1,13 +1,13 @@
-game
+Brick Breaker
 ====
 
 This project implements the game of Breakout.
 
-Name: 
+Joshua Boss
 
 ### Timeline
 
-Start Date: 
+Start Date: 9/12/20
 
 Finish Date: 
 
