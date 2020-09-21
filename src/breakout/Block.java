@@ -18,35 +18,50 @@ import java.util.HashMap;
 
 public class Block {
     private int numberOfHitsLeft;
-    public Rectangle thisBlock;
-    public static Paint BLOCK_COLOR;
-    public static final Paint BLOCK_COLOR_1 = Color.GREEN;
-    public static final Paint BLOCK_COLOR_2 = Color.GREENYELLOW;
-    public static final Paint BLOCK_COLOR_3 = Color.YELLOW;
-    public static final Paint BLOCK_COLOR_4 = Color.ORANGE;
-    public static final Paint BLOCK_COLOR_5 = Color.RED;
-    public HashMap<Integer, Paint> colorMap = new HashMap<>();
+    private Rectangle thisBlock;
+    private static final Paint BLOCK_COLOR_1 = Color.GREEN;
+    private static final Paint BLOCK_COLOR_2 = Color.GREENYELLOW;
+    private static final Paint BLOCK_COLOR_3 = Color.YELLOW;
+    private static final Paint BLOCK_COLOR_4 = Color.ORANGE;
+    private static final Paint BLOCK_COLOR_5 = Color.RED;
+
+    private HashMap<Integer, Paint> colorMap = new HashMap<>();
+
+    private Paint BLOCK_COLOR;
+
+
+
 
     public Block(int numberHits, int x, int y){
         numberOfHitsLeft = numberHits;
-        colorMap.put(1, BLOCK_COLOR_1);
-        colorMap.put(2, BLOCK_COLOR_2);
-        colorMap.put(3, BLOCK_COLOR_3);
-        colorMap.put(4, BLOCK_COLOR_4);
-        colorMap.put(5, BLOCK_COLOR_5);
+        createColorMap();
         BLOCK_COLOR = colorMap.get(numberHits);
-        thisBlock = new Rectangle(x, y, 100, 20);
+        thisBlock = new Rectangle(x, y, BlockMaker.BLOCK_WIDTH, BlockMaker.BLOCK_HEIGHT);
         thisBlock.setFill(BLOCK_COLOR);
         thisBlock.setId("block");
     }
 
+    //todo - add update to make sure that if it hits 0 it actually deletes the block from the blockList
     public void updateBlocks(){
         numberOfHitsLeft -- ;
         BLOCK_COLOR = colorMap.get(numberOfHitsLeft);
         thisBlock.setFill(BLOCK_COLOR);
     }
 
+    private void createColorMap(){
+        colorMap.put(1, BLOCK_COLOR_1);
+        colorMap.put(2, BLOCK_COLOR_2);
+        colorMap.put(3, BLOCK_COLOR_3);
+        colorMap.put(4, BLOCK_COLOR_4);
+        colorMap.put(5, BLOCK_COLOR_5);
+    }
 
+    public Rectangle getThisBlock(){
+        return thisBlock;
+    }
 
+    public int getNumberOfHitsLeft(){
+        return numberOfHitsLeft;
+    }
 
 }

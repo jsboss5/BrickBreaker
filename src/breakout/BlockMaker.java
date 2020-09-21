@@ -6,7 +6,7 @@ import java.util.*;
 public class BlockMaker {
     final String LEVEL_PATH = "src/breakout/maps/level";
     private Scanner input;
-    public static final int SIZE = 600;
+    //public static final int SIZE = 600;
     public static final int BLOCK_WIDTH = 100;
     public static final int BLOCK_HEIGHT = 20;
     public static final int BLOCK_ROWS = 18;
@@ -26,10 +26,13 @@ public class BlockMaker {
             for(int y = 0; y < BLOCK_ROWS * BLOCK_HEIGHT; y += BLOCK_HEIGHT) {
                 String[] numbers = input.nextLine().split(" ");
                 int i = 0;
-                for (int x = 0; x < SIZE; x += BLOCK_WIDTH) {
-                    Block newBlock = new Block(Integer.parseInt(numbers[i]), x, y);
-                    blockList.add(newBlock);
-                    root.getChildren().add(newBlock.thisBlock);
+                for (int x = 0; x < Game.SIZE; x += BLOCK_WIDTH) {
+                    if(Integer.parseInt(numbers[i])!=0) {
+
+                        Block newBlock = new Block(Integer.parseInt(numbers[i]), x, y);
+                        blockList.add(newBlock);
+                        root.getChildren().add(newBlock.getThisBlock());
+                    }
                     i++;
                 }
             }
