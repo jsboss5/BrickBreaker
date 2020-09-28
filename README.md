@@ -18,11 +18,11 @@ Hours Spent:
 
 ### Running the Program
 
-####Main class:
+#### Main class:
 
-####Data files needed: 
+#### Data files needed: 
 
-####Key/Mouse inputs:
+#### Key/Mouse inputs:
 Cheat keys:
 
 LEFT: move paddle left 
