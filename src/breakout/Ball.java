@@ -7,15 +7,15 @@ import javafx.scene.shape.Circle;
 public class Ball {
 
     private Circle thisBall;
-    public static int LEVEL;
-    public static int BALL_SPEED_X;
-    public static int BALL_SPEED_Y;
+    private int LEVEL;
+    private int BALL_SPEED_X;
+    private int BALL_SPEED_Y;
 
-    public static final Paint BALL_COLOR = Color.GREEN;
-    public static final int BALL_SIZE = 30;
-    public static final int SCREEN_SIZE = 600;   //same variable as SIZE in game
-
-
+    private final Paint BALL_COLOR = Color.BLACK;
+    private int size = 30;
+    private static final int SCREEN_SIZE = 600;   //same variable as SIZE in game
+    private static final String BALL_ID = "ball";
+    private static final int BIGBALL_RAD_SIZE = 20;
 
     public Ball(int level){
         LEVEL = level;
@@ -23,12 +23,12 @@ public class Ball {
     }
 
     private void createBallFromLevel(int level){
-        thisBall = new Circle(SCREEN_SIZE / 2, SCREEN_SIZE / 2, BALL_SIZE / 2);
+        thisBall = new Circle(SCREEN_SIZE / 2, SCREEN_SIZE / 2, size / 2);
         thisBall.setFill(BALL_COLOR);
-        thisBall.setId("ball");
+        thisBall.setId(BALL_ID);
 
-        BALL_SPEED_X = 130 + 10*(level);
-        BALL_SPEED_Y = -1*(130 + 10*(level));
+        BALL_SPEED_X = 70 + 10*(level);
+        BALL_SPEED_Y = -1*(200 + 10*(level));
     }
 
     public void flipDirectionY(){
@@ -36,6 +36,19 @@ public class Ball {
     }
     public void flipDirectionX(){
         BALL_SPEED_X *=-1;
+    }
+    public double getCenterX(){
+        return thisBall.getCenterX();
+    }
+    public double getCenterY(){
+        return thisBall.getCenterY();
+    }
+
+    public int getRadius(){
+        return size / 2;
+    }
+    public void setRadius(int newRad){
+          size = newRad * 2;
     }
 
     public int getSpeedX(){
@@ -45,16 +58,33 @@ public class Ball {
         return BALL_SPEED_Y;
     }
 
-    public void changeSpeedY(int newSpeed){
+    public void setSpeedY(int newSpeed){
         BALL_SPEED_Y = newSpeed;
     }
-    public void changeSpeedX(int newSpeed){
+    public void setSpeedX(int newSpeed){
         BALL_SPEED_X = newSpeed;
+    }
+
+    public void setCenterY(int newY){
+        BALL_SPEED_Y = newY;
+    }
+    public void setCenterX(int newX){
+        BALL_SPEED_X = newX;
     }
 
 
     public Circle getThisBall(){
         return thisBall;
     }
+    public void bigBall(){
+        thisBall.setRadius(BIGBALL_RAD_SIZE);
+    }
 
+
+    public void setThisBall(Circle newBall){
+        thisBall = newBall;
+    }
+    public int getLEVEL(){
+        return LEVEL;
+    }
 }

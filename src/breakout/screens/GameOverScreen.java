@@ -11,18 +11,22 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameOverScreen extends Screen {
     private static final String GAME_OVER_MESSAGE = "GAME OVER";
     private static final String BUTTON_MESSAGE = "Play Again";
     private static final Paint BACKGROUND_PAINT = Color.AQUAMARINE;
-
+    private List<Text> textList = new ArrayList<>();
 
     public GameOverScreen(){
         createScreen();
     }
 
     public void createScreen(){
-       super.createScreen(BUTTON_MESSAGE, GAME_OVER_MESSAGE, BACKGROUND_PAINT);
+        textList.add(super.createTextAboveButton(GAME_OVER_MESSAGE));
+        super.createNewScreen(BUTTON_MESSAGE, textList , BACKGROUND_PAINT);
     }
 
 }

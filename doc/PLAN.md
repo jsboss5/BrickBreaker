@@ -56,9 +56,9 @@ the blocks, but instead figure out how to get your ball to escape.
 
 
 
-#### Level Descriptions
+#### breakout.Level Descriptions
 
- * Level 1
+ * breakout.Level 1
    * Block Configuration: This configuration is a zigzag starting 
    from the top left of the screen and moving diagonally right until it hits the left 
    wall and then comes back the other way. It will look like this.
@@ -83,7 +83,7 @@ the blocks, but instead figure out how to get your ball to escape.
    except there will be different strengths of blocks corresponding to different colors that 
    deteriorate over time as the ball hits them more. 
 
- * Level 2
+ * breakout.Level 2
    * Block Configuration: The configuration of this level is more stacked
    So there are significantly more blocks to break, and their strength on average is larger.  
    It will look something like this...
@@ -103,7 +103,7 @@ the blocks, but instead figure out how to get your ball to escape.
    * Variation features: In this level, there will be powerups that you can attain
    such as change in ball size.  
 
- * Level 3
+ * breakout.Level 3
    * Block Configuration: This block configuration will be different from level two in 
    that there will be less time for the player to react because there will be many strong blocks lower down in the window. It might look something like this.
    
@@ -162,12 +162,12 @@ the blocks, but instead figure out how to get your ball to escape.
    * Method: A method from this class is createBlocks, which loops through the file 
    and creates block objects to disperse around the board. 
 
- * Class 4: Level class
+ * Class 4: breakout.Level class
    * Purpose: This class would exist in order to separate specifications between different levels.
    For instance, it would have different blockMaker objects with different gameboard layouts, and possibly even 
    different ways of winning. 
 
-   * Method: A method in the Level class might be a changePowerUp method, which 
+   * Method: A method in the breakout.Level class might be a changePowerUp method, which 
    would apply a powerup object at a certain moment given a certain input. 
 
  * Class 5:  ball class

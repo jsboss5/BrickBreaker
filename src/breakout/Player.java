@@ -1,10 +1,12 @@
 package breakout;
 
 
+
 public class Player {
     private int livesLeft;
     private int score;
-
+    private static final int SCORE_INCREMENT = 10;
+    private static final int OG_SCORE = 0;
     public Player(){
         livesLeft = 3;
         score = 0;
@@ -24,9 +26,9 @@ public class Player {
         livesLeft--;
     }
     public void resetScore(){
-        score = 0;
+        score = OG_SCORE;
     }
     public void addScore(){
-        score += 10;
+        score += SCORE_INCREMENT;
     }
 }

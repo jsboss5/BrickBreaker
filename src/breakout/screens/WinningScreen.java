@@ -3,19 +3,24 @@ package breakout.screens;
 import breakout.Screen;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Text;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class WinningScreen extends Screen {
-    private static final String GAME_OVER_MESSAGE = "CONGRATS, YOU WON";
+    private static final String WINNING_MESSAGE = "CONGRATS, YOU WON";
     private static final String BUTTON_MESSAGE = "Play Again";
     private static final Paint BACKGROUND_PAINT = Color.AQUAMARINE;
-
+    private List<Text> textList = new ArrayList<>();
 
     public WinningScreen(){
         createScreen();
     }
 
     public void createScreen(){
-        super.createScreen(BUTTON_MESSAGE, GAME_OVER_MESSAGE, BACKGROUND_PAINT);
+        textList.add(super.createTextAboveButton(WINNING_MESSAGE));
+        super.createNewScreen(BUTTON_MESSAGE, textList, BACKGROUND_PAINT);
     }
 
 }
