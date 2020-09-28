@@ -18,7 +18,7 @@ Hours Spent:
 
 ### Running the Program
 
-#### Main class:
+#### Main class: Run the Game Class To Play
 
 #### Data files needed: 
 
