@@ -21,11 +21,17 @@ Hours Spent: 70
 ### Running the Program
 Game Class - Simply run the start method of the game class to play the game!
 
+<<<<<<< HEAD
 #### Main class: 
 Game.java
 
 #### Data files needed: 
 No Data files needed - if there is no file for high score, the program creates one
+=======
+#### Main class: Run the Game Class To Play
+
+#### Data files needed: 
+>>>>>>> ba47e9d650c8b4980d6bcd7374cf8b8da81752b4
 
 #### Key/Mouse inputs:
 Cheat keys:
