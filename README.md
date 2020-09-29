@@ -29,7 +29,6 @@ No Data files needed - if there is no file for high score, the program creates o
 #### Main class: Run the Game Class To Play
 
 #### Data files needed: 
->>>>>>> ba47e9d650c8b4980d6bcd7374cf8b8da81752b4
 
 #### Key/Mouse inputs:
 Cheat keys:
@@ -63,9 +62,6 @@ Known Bugs:
 
 1. If you press powerup key (P) and there is already a power up droppign than it stops 
 the one that is dropping in the middle of the screen
-
-Extra credit: We added cut screens for before the game starts, in between each of the levels, and after 
-the user wins. We also added buttons there too to allow for a more interactive experience. 
 
 
 ### Notes/Assumptions
