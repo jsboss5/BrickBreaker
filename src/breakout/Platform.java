@@ -82,4 +82,5 @@ public class Platform extends Game{
         thisPlatform = newPlatform;
     }
 
+
 }

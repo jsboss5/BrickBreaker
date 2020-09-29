@@ -26,9 +26,9 @@ public class GameTest extends DukeApplicationTest {
     private final int SIZE = 600;
     private Platform myPlatform;
     public static final int VERTICAL_OFFSET = 40;
-
-    private static Stage STAGE;
-
+    private static  Circle ballShape;
+    private  Stage STAGE;
+    private Rectangle platformShape;
     /**
      * Start special test version of application that does not animate on its own before each test.
      *
@@ -49,12 +49,14 @@ public class GameTest extends DukeApplicationTest {
         STAGE.setScene(myScene);
         STAGE.setTitle("GAME TESTS");
         STAGE.show();
-        STAGE.show();
+        //STAGE.show();
 
         myBall = new Ball(1);
         myPlatform = new Platform(1);
         myBall.setThisBall(lookup("#ball").query());
         myPlatform.setThisPlatform(lookup("#platform").query());
+        ballShape = lookup("#ball").query();
+        platformShape = lookup("#platform").query();
         // find individual items within game by ID (must have been set in your code using setID())
 
     }
@@ -86,17 +88,17 @@ public class GameTest extends DukeApplicationTest {
         assertEquals((int)myGame.getBlockList().get(0).getThisBlock().getX(), 0);
         assertEquals((int)myGame.getBlockList().get(0).getThisBlock().getY(), 0);
 
-        assertEquals((int)myGame.getBlockList().get(1).getThisBlock().getX(), 100);
-        assertEquals((int)myGame.getBlockList().get(1).getThisBlock().getY(), 20);
+        assertEquals((int)myGame.getBlockList().get(1).getThisBlock().getX(), 400);
+        assertEquals((int)myGame.getBlockList().get(1).getThisBlock().getY(), 0);
 
-        assertEquals((int)myGame.getBlockList().get(2).getThisBlock().getX(), 200);
-        assertEquals((int)myGame.getBlockList().get(2).getThisBlock().getY(), 40);
+        assertEquals((int)myGame.getBlockList().get(2).getThisBlock().getX(), 100);
+        assertEquals((int)myGame.getBlockList().get(2).getThisBlock().getY(), 20);
 
-        assertEquals((int)myGame.getBlockList().get(3).getThisBlock().getX(), 300);
-        assertEquals((int)myGame.getBlockList().get(3).getThisBlock().getY(), 60);
+        assertEquals((int)myGame.getBlockList().get(3).getThisBlock().getX(), 200);
+        assertEquals((int)myGame.getBlockList().get(3).getThisBlock().getY(), 40);
 
-        assertEquals((int)myGame.getBlockList().get(6).getThisBlock().getX(), 400);
-        assertEquals((int)myGame.getBlockList().get(6).getThisBlock().getY(), 120);
+        assertEquals((int)myGame.getBlockList().get(4).getThisBlock().getX(), 300);
+        assertEquals((int)myGame.getBlockList().get(4).getThisBlock().getY(), 60);
 
         //assertEquals();
     }
@@ -107,6 +109,7 @@ public class GameTest extends DukeApplicationTest {
         /**
          * Tests to make srue ball bounces off block correctly
          */
+        //start(new Stage());
         int ballInitialX = BlockMaker.BLOCK_WIDTH + BALL_SIZE;
         int ballInitialY = BlockMaker.BLOCK_HEIGHT + BALL_SIZE+BlockMaker.BLOCK_HEIGHT;
         myBall.setCenterX(ballInitialX);
@@ -133,23 +136,24 @@ public class GameTest extends DukeApplicationTest {
         /**
          * Tests to see if the ball resets position when it goes off screen and
          */
-        setUpClass();
-        int ballInitialX = SIZE/4;
-        int ballInitialY = 12*(BlockMaker.BLOCK_HEIGHT);
-        myBall.setCenterX(ballInitialX);
-        myBall.setCenterY(ballInitialY);
-        //myBall.thisBall.change(); // TO DO: how can we call change on ball?
 
         int i = 0;
         boolean reset = false;
         Player myPlayer = myGame.getMyPlayer();
         int livesLeft = myPlayer.getLivesLeft();
+        ballShape.setCenterX(SIZE /2);
+        ballShape.setCenterY(SIZE - 5);
+
+        myBall.setSpeedY(100);
+        myBall.setSpeedX(50);
 
         while(i < 1000) {
             myGame.step(Game.SECOND_DELAY);
             sleep(10, TimeUnit.MILLISECONDS);
             i++;
             if(myBall.getCenterX() == SIZE/2 && myBall.getCenterY() == SIZE/2){
+                myGame.checkBottomBoundary(ballShape);
+                myGame.resetPaddleAndBall();
                 reset = true;
                 assertEquals(livesLeft - 1, myPlayer.getLivesLeft());
                 sleep(2, TimeUnit.SECONDS);
@@ -158,5 +162,26 @@ public class GameTest extends DukeApplicationTest {
         }
         assertTrue(reset);
     }
+
+    @Test
+    void checkKeyCodes(){
+        myScene.setOnKeyPressed(e -> {
+            try {
+                myGame.handleKeyInput(e.getCode());
+            } catch (FileNotFoundException fileNotFoundException) {
+                fileNotFoundException.printStackTrace();
+            }
+        });
+            int ogNumBlocks = myGame.getBlockList().size();
+            sleep(3000);
+            press(myScene, KeyCode.D);
+            sleep(3000);
+            int newNumBlocks = myGame.getCurrentBlockList().size();
+            assertEquals(ogNumBlocks - 1, newNumBlocks);
+
+    }
+
+
+
 
 }

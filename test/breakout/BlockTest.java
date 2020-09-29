@@ -67,7 +67,7 @@ class BlockTest extends DukeApplicationTest{
             if(intersection.getBoundsInLocal().getWidth()!=-1){
 
                 int scoreBeforeHit = block.getNumberOfHitsLeft();
-                block.updateBlocks();
+                block.updateBlocks(myBall);
                 myGame.getMyPlayer().addScore();
                 int scoreAfterHit = block.getNumberOfHitsLeft();
                 assertEquals(scoreBeforeHit, scoreAfterHit+1); //CHECKS SCORE IS DECREASED

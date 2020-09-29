@@ -16,10 +16,12 @@ public class Ball {
     private static final int SCREEN_SIZE = 600;   //same variable as SIZE in game
     private static final String BALL_ID = "ball";
     private static final int BIGBALL_RAD_SIZE = 20;
+    private boolean hasKey;
 
     public Ball(int level){
         LEVEL = level;
         createBallFromLevel(level);
+        hasKey = false;
     }
 
     private void createBallFromLevel(int level){
@@ -27,7 +29,7 @@ public class Ball {
         thisBall.setFill(BALL_COLOR);
         thisBall.setId(BALL_ID);
 
-        BALL_SPEED_X = 70 + 10*(level);
+        BALL_SPEED_X = 50 + 10*(level);
         BALL_SPEED_Y = -1*(200 + 10*(level));
     }
 
@@ -78,6 +80,12 @@ public class Ball {
     }
     public void bigBall(){
         thisBall.setRadius(BIGBALL_RAD_SIZE);
+    }
+    public boolean hasKey(){
+        return hasKey;
+    }
+    public void gotKey(){
+        hasKey = true;
     }
 
 

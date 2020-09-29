@@ -1,8 +1,10 @@
 package breakout;
 
+import breakout.PowerUps.OneUp;
+import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -11,58 +13,134 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PowerUpTest extends DukeApplicationTest{
+class PowerUpTest extends DukeApplicationTest {
     // create an instance of our game to be able to call in tests (like step())
     private final Game myGame = new Game();
-    // keep created scene to allow mouse and keyboard events
-    private Scene myScene;
-    private Stage STAGE;
-    public static final int PLATFORM_SIZE = 80;
-    public static final int BALL_SIZE = 30;
-    // keep any useful elements whose values you want to test directly in multiple tests
-    private Ball myBall;
-    private PowerUp myPowerUp;
-    private final int SIZE = 600;
-    private Platform myPlatform;
+    private Stage myStage;
+    private final String TITLE = "POWER UP TESTS";
     public static final int VERTICAL_OFFSET = 40;
-    public Player myPlayer;
+    private static final String TEST_PATHNAME = "data/maps/testMaps/test1.txt";
+    private OneUp myBallGrower;
 
     Game br = new Game();
 
     @Override
     public void start(Stage stage) throws FileNotFoundException {
-        // create game's scene with all shapes in their initial positions and show it
+        // create game's scene with all shapes in their initial positions and show i
 
-        STAGE = stage;
-        myScene = myGame.setupScene(1);
-        STAGE.setScene(myScene);
-        STAGE.setTitle("POWER UP TESTS");
-        STAGE.show();
-        STAGE.show();
+        myStage = stage;
+        Scene myScene = myGame.setupScene(11);
+        myStage.setScene(myScene);
+        myStage.setTitle(TITLE);
+        myStage.show();
 
-        myBall = new Ball(1);
-        myPowerUp = PowerUp.chooseRandomPowerUP();
-        myPlatform = new Platform(1);
-        myBall.setThisBall(lookup("#ball").query());
-        myPowerUp.setThisPowerUp(lookup("#ball").query());
-        myPlatform.setThisPlatform(lookup("#platform").query());
-        // find individual items within game by ID (must have been set in your code using setID())
+    }
+
+    @BeforeEach
+    public void before() throws FileNotFoundException {
+        myBallGrower = new OneUp();
+        Group testRoot = new Group();
+        testRoot.getChildren().add(myBallGrower.getThisPowerUp());
+    }
+
+    @Test
+    void testOneUpGetterMethods() throws FileNotFoundException {
+
+        myBallGrower.createPowerUpAtPoint(100,200);
+        myBallGrower.getSpeed();
+        assertEquals(myBallGrower.getSpeed(), 40);
+        myBallGrower.setSpeed(50);
+        assertEquals(myBallGrower.getSpeed(), 50);
+        myBallGrower.setSpeed(-20);
+        assertEquals(myBallGrower.getSpeed(), -20);
+
+        assertEquals(myBallGrower.getSize(), 10);
+
 
     }
 
     @Test
-    void testPowerUpStillWhileBlockIsPresent() throws IOException {
+    void testPlatformGrowerUpGetterMethods() throws FileNotFoundException {
+
+        myBallGrower.createPowerUpAtPoint(100,200);
+        myBallGrower.getSpeed();
+        assertEquals(myBallGrower.getSpeed(), 40);
+        myBallGrower.setSpeed(50);
+        assertEquals(myBallGrower.getSpeed(), 50);
+        myBallGrower.setSpeed(-20);
+        assertEquals(myBallGrower.getSpeed(), -20);
+
+        assertEquals(myBallGrower.getSize(), 10);
+
+
+    }
+
+    @Test
+    void testBallGrowerUpGetterMethods() throws FileNotFoundException {
+
+        myBallGrower.createPowerUpAtPoint(100,200);
+        myBallGrower.getSpeed();
+        assertEquals(myBallGrower.getSpeed(), 40);
+        myBallGrower.setSpeed(50);
+        assertEquals(myBallGrower.getSpeed(), 50);
+        myBallGrower.setSpeed(-20);
+        assertEquals(myBallGrower.getSpeed(), -20);
+
+        assertEquals(myBallGrower.getSize(), 10);
+
+
+    }
+
+    @Test
+    void createPowerUp_Some_Location() throws FileNotFoundException {
+
+        myBallGrower.createPowerUpAtPoint(100,200);
+        assertEquals(myBallGrower.getCenterX(), 100);
+        assertEquals(myBallGrower.getCenterX(), 200);
+
+        myBallGrower.createPowerUpAtPoint(200,300);
+        assertEquals(myBallGrower.getCenterX(), 200);
+        assertEquals(myBallGrower.getCenterX(), 300);
+
+        myBallGrower.createPowerUpAtPoint(600,600);
+        assertEquals(myBallGrower.getCenterX(), 600);
+        assertEquals(myBallGrower.getCenterX(), 600);
+
+    }
+
+
+        @Test
+        public void testPowerUpStillWhileBlockIsPresent() throws IOException {
         /*
         Tests if powerups are still while "inside" a block"
          */
-        myPowerUp.createPowerUpAtPoint(100, 100);
-        myPowerUp.createPowerUpAtPoint(200, 100);
+            myBallGrower.createPowerUpAtPoint(200, 100);
 
         sleep(1, TimeUnit.SECONDS);
         myGame.step(Game.SECOND_DELAY);
         sleep(1, TimeUnit.SECONDS);
 
-        assertEquals(200, myPowerUp.getThisPowerUp().getCenterX());
-        assertEquals(100, myPowerUp.getThisPowerUp().getCenterY());
+        assertEquals(200, myBallGrower.getThisPowerUp().getCenterX());
+        assertEquals(100, myBallGrower.getThisPowerUp().getCenterY());
+    }
+
+    @Test
+    void testPowerUpMoveWhileBlockIsBroke() throws IOException {
+        /*
+        Tests if powerups drop
+         */
+        myBallGrower.createPowerUpAtPoint(100, 100);
+        myBallGrower.createPowerUpAtPoint(200, 100);
+
+
+        sleep(1, TimeUnit.SECONDS);
+        myGame.step(Game.SECOND_DELAY);
+        myGame.step(Game.SECOND_DELAY);
+        myGame.step(Game.SECOND_DELAY);
+        myGame.step(Game.SECOND_DELAY);
+        sleep(1, TimeUnit.SECONDS);
+
+        assertEquals(180, myBallGrower.getThisPowerUp().getCenterX());
+        assertEquals(100, myBallGrower.getThisPowerUp().getCenterY());
     }
 }

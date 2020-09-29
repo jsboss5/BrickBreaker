@@ -22,6 +22,7 @@ public class Level extends JFrame {
 
     private List<Block> blockList;
     private Ball myBall;
+    private Key myKey;
     private Platform myPlatform;
     private Player myPlayer;
     private PowerUp myPowerUp;
@@ -49,6 +50,7 @@ public class Level extends JFrame {
         //it makes sense that ball, platform, blocklist are all inherent to the level and change with new level
 
         myBall = new Ball(currentLevel);
+        myKey = new Key(currentLevel);
         myBall.getThisBall().setId(BALL_ID);
         //myPowerUp = new PowerUp();
         myPlatform = new Platform(currentLevel);
@@ -69,6 +71,7 @@ public class Level extends JFrame {
 
     private Scene addToRoot(Group root){
         root.getChildren().add(myBall.getThisBall());
+        root.getChildren().add(myKey.getThisKey());
         root.getChildren().add(scoreText);
         root.getChildren().add(levelText);
         root.getChildren().add(livesText);
@@ -94,6 +97,9 @@ public class Level extends JFrame {
 
     public Platform getMyPlatform(){
         return myPlatform;
+    }
+    public Key getMyKey(){
+        return myKey;
     }
 
     public Player getMyPlayer(){

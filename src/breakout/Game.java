@@ -41,7 +41,6 @@ public class Game extends Application {
     private static final int LEVEL_TWO_INT = 2;
     private static final int LEVEL_THREE_INT = 3;
 
-    //TODO - go through and make most of these private likely
 
     public static final int SIZE = 600;
     public static final int FRAMES_PER_SECOND = 60;
@@ -62,6 +61,7 @@ public class Game extends Application {
     private PowerUp myPowerUp;
 
     private Ball myBall;
+    private Key myKey;
     private Player myPlayer = new Player();
     private Text scoreText;
     private Text levelText;
@@ -69,7 +69,6 @@ public class Game extends Application {
     private static final  Text highScoreText = new Text(10, 50, Game.HIGH_SCORE_HEADER + getHighScore());
     private static final Text NEW_HIGH_SCORE = new Text(10, 80, NEW_HIGH_SCORE_HEADER);
 
-    //Todo - added this blockList and animation instance variables - can also pass to functions if need be
     private List<Block> startBlockList;
     private List<Block> currentBlockList;
      Timeline animation;
@@ -127,6 +126,7 @@ public class Game extends Application {
         myLevel = new Level(level, myPlayer);
         Scene scene = myLevel.getScene();
         myBall = myLevel.getMyBall();
+        myKey = myLevel.getMyKey();
         myPlatform = myLevel.getMyPlatform();
         myPowerUp = myLevel.getPowerUp();
         startBlockList = myLevel.getBlockList();
@@ -155,6 +155,7 @@ public class Game extends Application {
         // check for collisions (order may matter! and should be its own method if lots of kinds of collisions)
         checkBallPlatformCollision(myPlatform.getThisPlatform());
         checkPowerUpPlatformCollision(myPlatform.getThisPlatform());
+        checkBallKeyCollision(myKey.getThisKey());
         checkBallBlockCollisionAndPowerUp();
         checkGameStatus();    //
 
@@ -257,22 +258,32 @@ public class Game extends Application {
 
     private void checkBallBlockCollisionAndPowerUp(){
         for(Block block : startBlockList){
-            updateBlock(block);
+                updateBlock(block);
         }
     }
 
     private void updateBlock(Block block) {
-        if(checkBallPlatformCollision(block.getThisBlock())){
-            block.updateBlocks();
-            myPlayer.addScore();
-            checkIfBlockBroken(block);
+        if (checkBallPlatformCollision(block.getThisBlock())) {
+               if(block.isLocked()){
+                   block.updateBlocks(myBall);
+               }
+               else{
+                    block.updateBlocks(myBall);
+                    myPlayer.addScore();
+                    checkIfBlockBroken(block, myBall);
+                }
         }
     }
 
-    private void checkIfBlockBroken(Block block) {
-        if(block.getNumberOfHitsLeft() < MIN_BLOCK_HITS){
-            currentBlockList.remove(block);
-            chanceAtPowerUp(block);
+    private void checkIfBlockBroken(Block block, Ball myBall) {
+        if(block.isExplosive() || block.getNumberOfHitsLeft() < MIN_BLOCK_HITS && (myBall.hasKey() || !block.isLocked())){
+            if(block.isExplosive()) {
+                Block.explode(currentBlockList, block, myBall);
+                currentBlockList.remove(block);
+            }
+            else {
+                chanceAtPowerUp(block);
+            }
         }
     }
 
@@ -296,9 +307,30 @@ public class Game extends Application {
         Shape intersection = Shape.intersect(hitter, myBall.getThisBall());
         if (intersection.getBoundsInLocal().getWidth() != INTERSECTED) {
             myBall.flipDirectionY();
+            if(myPlatform.getPlatSpeed() > 0) {
+                myBall.setSpeedX(myBall.getSpeedX() + 2);
+            }
+            else if(myPlatform.getPlatSpeed() < 0) {
+                myBall.setSpeedX(myBall.getSpeedX() - 2);
+            }
             return true;
         }
             return false;
+    }
+
+    public boolean checkBallKeyCollision (Circle key) {
+        // with shapes, can check precisely
+        Shape intersection = Shape.intersect(myKey.getThisKey(), myBall.getThisBall());
+        if (intersection.getBoundsInLocal().getWidth() != INTERSECTED) {
+            executeKey();
+            return true;
+        }
+        return false;
+    }
+
+    private void executeKey() {
+        myBall.gotKey();
+        myLevel.getRoot().getChildren().remove(myKey.getThisKey());
     }
 
     private boolean checkPowerUpPlatformCollision (Shape hitter) {
@@ -340,7 +372,7 @@ public class Game extends Application {
             myBall.flipDirectionX();
         }
     }
-    private void checkBottomBoundary(Circle ball){
+    public void checkBottomBoundary(Circle ball){
         if(ball.getCenterY() - ball.getRadius() >= SIZE){
             ball.setCenterX(SIZE/2);
             ball.setCenterY(SIZE/2);
@@ -365,7 +397,7 @@ public class Game extends Application {
             animation.play();
         }
     }
-    private void resetPaddleAndBall(){
+    public void resetPaddleAndBall(){
         myBall.getThisBall().setCenterX(SIZE/2);
         myBall.getThisBall().setCenterY(SIZE/2);
         myPlatform.getThisPlatform().setX(SIZE/2 - PLATFORM_SIZE/2);
@@ -387,6 +419,9 @@ public class Game extends Application {
     }
 
     public void checkScore() throws IOException {
+        if(highScore== ""){
+            return;
+        }
         if(myPlayer.getScore() > Integer.parseInt(highScore)){
             highScore = Integer.toString(myPlayer.getScore());
             NEW_HIGH_SCORE.setVisible(true);
@@ -445,7 +480,7 @@ public class Game extends Application {
         if(!currentBlockList.isEmpty()){
             Block deletedBlock = currentBlockList.get(0);
             while(deletedBlock.getNumberOfHitsLeft()>0){
-            deletedBlock.updateBlocks();
+            deletedBlock.updateBlocks(myBall);
             }
             myLevel.getRoot().getChildren().remove(deletedBlock);
             currentBlockList.remove(deletedBlock);
@@ -459,7 +494,7 @@ public class Game extends Application {
         animation.pause();
         generateNextLevel(newLevel);
     }
-    private void handleKeyInput (KeyCode code) throws FileNotFoundException {
+    public void handleKeyInput (KeyCode code) throws FileNotFoundException {
         switch (code) {
             case LEFT -> myPlatform.getThisPlatform().setX(myPlatform.getThisPlatform().getX() - PLATFORM_SPEED);
             case RIGHT -> myPlatform.getThisPlatform().setX(myPlatform.getThisPlatform().getX() + PLATFORM_SPEED);
@@ -478,4 +513,9 @@ public class Game extends Application {
     public Platform getMyPlatform() {
         return myPlatform;
     }
+
+    public List<Block> getCurrentBlockList(){
+        return currentBlockList;
+    }
+
 }

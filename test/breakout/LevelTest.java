@@ -35,7 +35,6 @@ class LevelTest extends DukeApplicationTest{
         myStage.setTitle(TITLE);
         myStage.show();
 
-
     }
 
     @BeforeEach
@@ -55,7 +54,6 @@ class LevelTest extends DukeApplicationTest{
     void correctLayoutForLevel_2() throws FileNotFoundException {
         assertEquals(blockList.get(0).getThisBlock().getX(), 200);
         assertEquals(blockList.get(0).getThisBlock().getY(), 0);
-        sleep(40);
         assertEquals(blockList.get(1).getThisBlock().getX(), 300);
         assertEquals(blockList.get(1).getThisBlock().getY(), 0);
         assertEquals(blockList.get(2).getThisBlock().getX(), 100);

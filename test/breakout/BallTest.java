@@ -43,15 +43,15 @@ class BallTest extends DukeApplicationTest{
 
         assertEquals(test1.getCenterX(), Game.SIZE/2);
         assertEquals(test1.getCenterY(),Game.SIZE/2);
-        assertEquals(test1.getSpeedX(), 130 + 10*1);
+        assertEquals(test1.getSpeedX(), 50 + 10*1);
 
         assertEquals(test2.getCenterX(), Game.SIZE/2);
         assertEquals(test2.getCenterY(),Game.SIZE/2);
-        assertEquals(test2.getSpeedX(), 130 + 10*2);
+        assertEquals(test2.getSpeedX(), 50 + 10*2);
 
         assertEquals(test3.getCenterX(), Game.SIZE/2);
         assertEquals(test3.getCenterY(),Game.SIZE/2);
-        assertEquals(test3.getSpeedX(), 130 + 10*3);
+        assertEquals(test3.getSpeedX(), 50 + 10*3);
 
     }
     @Test
@@ -74,8 +74,8 @@ class BallTest extends DukeApplicationTest{
         sleep(1, TimeUnit.SECONDS);
         myGame.step(Game.SECOND_DELAY);
         sleep(1, TimeUnit.SECONDS);
-        assertEquals(initialX + 1.83333333333333, myBallShape.getCenterX());
-        assertEquals(initialY + 1.8333333333333333, myBallShape.getCenterY());
+        assertEquals(initialX + .5, myBallShape.getCenterX());
+        assertEquals(initialY + 3, myBallShape.getCenterY());
 
     }
 

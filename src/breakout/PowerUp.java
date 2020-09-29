@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class PowerUp {
     private Circle thisPowerUp;
-    private int speed = 70;
+    private int speed = 40;
     private String type;
     private final int POWER_UP_SIZE = 10;
     private static final PowerUp[] listOfPossiblePowerUps = new PowerUp[]{new PlatformGrower(), new BallGrower(), new OneUp()};
@@ -45,4 +45,10 @@ public abstract class PowerUp {
 
     public abstract void createPowerUpAtPoint(int x, int y);
     public abstract void doThePowerUp(Player myPlayer, Ball myBall, Platform myPlatform);
+    public double getCenterX(){
+        return thisPowerUp.getCenterX();
+    }
+    public double getCenterY(){
+        return thisPowerUp.getCenterY();
+    }
 }
