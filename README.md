@@ -3,8 +3,6 @@ game
 
 This project implements the game of Breakout.
 
-Name: Joshua Boss, Liam Clark
-
 ### Timeline
 
 Start Date: 09/05
